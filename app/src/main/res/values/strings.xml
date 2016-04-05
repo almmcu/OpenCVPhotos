@@ -3,4 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_feature_detection_on_photo">FeatureDetectionOnPhotoActivity
     </string>
+    <string name="title_activity_cmera_component">CmeraComponentActivity</string>
+    <string name="title_activity_surf_feature_detection_on_video">
+        SurfFeatureDetectionOnVideoActivity
+    </string>
 </resources>

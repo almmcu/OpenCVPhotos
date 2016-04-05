@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bir.deneme.sensor.oda.sensordeneme1">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
@@ -17,6 +17,7 @@
     <uses-feature
         android:name="android.hardware.camera.front.autofocus"
         android:required="false" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -36,6 +37,14 @@
         <activity
             android:name=".photo.FeatureDetectionOnPhotoActivity"
             android:label="@string/title_activity_feature_detection_on_photo"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".photo.CmeraComponentActivity"
+            android:label="@string/title_activity_cmera_component"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".video.SurfFeatureDetectionOnVideoActivity"
+            android:label="@string/title_activity_surf_feature_detection_on_video"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

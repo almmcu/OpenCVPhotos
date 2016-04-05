@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import java.util.Random;
 
+import bir.deneme.sensor.oda.sensordeneme1.photo.CmeraComponentActivity;
 import bir.deneme.sensor.oda.sensordeneme1.photo.FeatureDetectionOnPhotoActivity;
+import bir.deneme.sensor.oda.sensordeneme1.video.SurfFeatureDetectionOnVideoActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        button = (Button) findViewById(R.id.button1);
+        button = (Button) findViewById(R.id.button3);
 
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -59,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
                 yemek[3] = "Y Y";
 
                 txt.setText("\n\n\n------ >%d".concat(yemek[i1]));
-
+                Intent  intent = new Intent(getApplicationContext(), SurfFeatureDetectionOnVideoActivity.class);
+//                Intent  intent = new Intent(getApplicationContext(), CmeraComponentActivity.class);
+                startActivity(intent);
 
 
 
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 txt.setText("");
 
                 Intent  intent = new Intent(getApplicationContext(), FeatureDetectionOnPhotoActivity.class);
+//                Intent  intent = new Intent(getApplicationContext(), CmeraComponentActivity.class);
                 startActivity(intent);
 
             }

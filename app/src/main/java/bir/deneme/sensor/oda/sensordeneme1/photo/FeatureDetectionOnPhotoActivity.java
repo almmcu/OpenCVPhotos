@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
@@ -22,12 +23,15 @@ import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.w3c.dom.Text;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import bir.deneme.sensor.oda.sensordeneme1.R;
+import bir.deneme.sensor.oda.sensordeneme1.kmeans.KMeans;
 
 public class FeatureDetectionOnPhotoActivity extends AppCompatActivity {
 
@@ -41,7 +45,7 @@ public class FeatureDetectionOnPhotoActivity extends AppCompatActivity {
     MatOfDMatch gm;
     LinkedList<DMatch> good_matches;
     private String imgPath1 = "", imgPath2 = "";
-
+    ArrayList<Double> farkList ;
     // Opencv Kontrol ve Kod yazma
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -52,6 +56,13 @@ public class FeatureDetectionOnPhotoActivity extends AppCompatActivity {
                     System.loadLibrary("nonfree");
                     imgPath1 = "8ba3hb9l8tqeapr2tu88n45182.jpg";
                     imgPath2 = "8q0gsa9bvqcfqjg3dv372etk0q.jpg";
+                    imgPath1 = "left1_5.jpg";
+                    imgPath2 = "right1_5.jpg";
+                    imgPath1 = "tek_nesne/50cm/right2_1_15.jpg";
+                    imgPath2 = "tek_nesne/50cm/left2_1.jpg";
+// 5 cm fark için
+                    imgPath1 = "tek_nesne/77cm/right2_1_20.jpg";
+                    imgPath2 = "tek_nesne/77cm/right2_1_15.jpg";
                     File file1 = new File(Environment.getExternalStorageDirectory(), "openCvPhotos/" + imgPath1);
                     File file2 = new File(Environment.getExternalStorageDirectory(), "openCvPhotos/" + imgPath2);
                     Mat image1, image2;
@@ -136,20 +147,100 @@ public class FeatureDetectionOnPhotoActivity extends AppCompatActivity {
                         MatOfPoint2f scene = new MatOfPoint2f();
                         LinkedList<Point> objList = new LinkedList<>();
                         LinkedList<Point> sceneList = new LinkedList<>();
+                        KMeans objKMeans = new KMeans();
+                        KMeans sceneKMeans = new KMeans();
+
+                        double ort = 0;
+                        int count   = 0;
+                        farkList = new ArrayList<>();
                         for (int i = 0; i < good_matches.size(); i++) {
-                            objList.addLast(keypoints_objectList.get(good_matches.get(i).queryIdx).pt);
                             sceneList.addLast(keypoints_sceneList.get(good_matches.get(i).trainIdx).pt);
+                            objList.addLast(keypoints_objectList.get(good_matches.get(i).queryIdx).pt);
+
+                            // KMeans algoritmasını kullanabilmek için Point tipinde bir nesne oluşturduk.
+                            bir.deneme.sensor.oda.sensordeneme1.kmeans.Point point = null;
+                            /**
+                             *
+                             *  Kmeans algoritmasını kullanabilmek için KMeans sınıfından iki nesne türetteik.
+                             *  objKMeans ve sceneKMeans
+                             *  bu iki nesnenin list elemanına eşeleşen en iyi noktaları ekledik.
+                             *  point nesnesinin yapıcı metoduna en iyi eşleşen noktaların x ve y değerlerini göndedik.
+                             *
+                             *  Eğer eşleşen noktalar arasındaki fark negatif ise bu dğerler yanlış eşleitiğinden almıyoruz.
+                             * */
+
+                            double x1 = keypoints_sceneList.get(good_matches.get(i).trainIdx).pt.x;
+                            double x2 = keypoints_objectList.get(good_matches.get(i).queryIdx).pt.x;
+                            double fark = x1 - x2 ;
+                            if ((fark) >= 0) {
+                            ort += (fark) ;
+                                farkList.add(fark);
+                                count ++;
+                                // objList değerleri ekleniyor
+                                point = new bir.deneme.sensor.oda.sensordeneme1.kmeans.Point(keypoints_objectList.get(good_matches.get(i).queryIdx).pt.x, keypoints_objectList.get(good_matches.get(i).queryIdx).pt.y);
+                                objKMeans.getPoints().add(point);
+
+                                // sceneList değerleri ekleniyor
+                                point = new bir.deneme.sensor.oda.sensordeneme1.kmeans.Point(keypoints_sceneList.get(good_matches.get(i).trainIdx).pt.x, keypoints_sceneList.get(good_matches.get(i).trainIdx).pt.y);
+                                sceneKMeans.getPoints().add(point);
+                            }
                         }
+
+                        ort = ort / count;
+                        System.out.println(ort);
+
+                        System.out.println("");
+
+                        /**
+                         * Eşeleşen noktalar alındı.
+                         * KMeans algoritmsı kullanılarak kümeleme işlemi gerçekleştirirlecek.
+                         * İki resim için bulunan eşleşen noktalar kümeleme algoritmasına tabi tutluyor.
+                         * */
+
+                        objKMeans.init();
+                        objKMeans.calculate();
+
+                        sceneKMeans.init();
+                        sceneKMeans.calculate();
                         obj.fromList(objList);
                         Mat Mat1 = new Mat();
                         scene.fromList(sceneList);
 
-                        Mat H = Calib3d.findHomography(obj, scene);
+                        int i = sceneKMeans.clusterQuality(sceneKMeans);
+                        ort = 0;
+                        for (int j = 0; j < sceneKMeans.getClusters().get(i).getPoints().size(); j ++){
+                            int index = sceneKMeans.getPoints().indexOf( sceneKMeans.getClusters().get(i).getPoints().get(j));
+                            ort += farkList.get(index);
+                            System.out.println(index);
+                        }
+                        ort = ort / sceneKMeans.getClusters().get(i).getPoints().size();
+                        ort /=10000;
+                        TextView txtDistance = (TextView) findViewById(R.id.txtDistance);
+                        txtDistance.setText("15 cm = " + (0.34 * 15) / ort + "\n" +
+                                        "20 cm = " + (0.34 * 20) / ort
+                        );
 
+                        System.out.println(ort);
+                        //Mat H = Calib3d.findHomography(obj, scene,Calib3d.RANSAC);
+                        Mat H = Calib3d.findHomography(obj, scene,Calib3d.RANSAC);
+
+                        System.out.println("K means Hesaplandı");
+
+                        // Bu kısımları yorum satırına almamızın nedeni bu kısımları henüz kullanma ihtiyacı hisstmediimizden kaynaklanmakta.
+                       /* try {
+                       obj.fromList(objList);
+                        Mat Mat1 = new Mat();
+                        scene.fromList(sceneList);
+                            Features2d.drawKeypoints(image1, keyPoints, image1);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        Mat H = Calib3d.findHomography(obj, scene);
                         Mat warpimg = Mat1.clone();
                         org.opencv.core.Size ims = new org.opencv.core.Size(Mat1.cols(), Mat1.rows());
                         // hata veriyor mat1 boş olduğundan diye tahmin ediyorum
                         Imgproc.warpPerspective(Mat1, warpimg, H, ims);
+                        */
 
                     }
                 }

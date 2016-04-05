@@ -191,7 +191,7 @@ public class Calib3d {
     }
 
     //javadoc: findHomography(srcPoints, dstPoints)
-    public static Mat findHomography(MatOfPoint2f srcPoints, MatOfPoint2f dstPoints)
+    public static Mat findHomography(MatOfPoint2f srcPoints, MatOfPoint2f dstPoints, int ransac)
     {
         Mat srcPoints_mat = srcPoints;
         Mat dstPoints_mat = dstPoints;
