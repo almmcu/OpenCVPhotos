@@ -45,6 +45,17 @@
         <activity
             android:name=".video.SurfFeatureDetectionOnVideoActivity"
             android:label="@string/title_activity_surf_feature_detection_on_video"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".camera.FeatureDetectionOnPhotoActivity2"
+            android:label="@string/title_activity_feature_detection_on_photo2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".camera.TakePhotoActivity"
+            android:label="@string/title_activity_take_photo"></activity>
+        <activity
+            android:name=".accdeneme.AccelerometerExample"
+            android:label="@string/title_activity_accelerometer_example"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

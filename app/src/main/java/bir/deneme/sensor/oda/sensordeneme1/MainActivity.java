@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import java.util.Random;
 
+import bir.deneme.sensor.oda.sensordeneme1.accdeneme.AccelerometerExample;
+import bir.deneme.sensor.oda.sensordeneme1.camera.FeatureDetectionOnPhotoActivity2;
+import bir.deneme.sensor.oda.sensordeneme1.camera.TakePhotoActivity;
 import bir.deneme.sensor.oda.sensordeneme1.photo.CmeraComponentActivity;
 import bir.deneme.sensor.oda.sensordeneme1.photo.FeatureDetectionOnPhotoActivity;
 import bir.deneme.sensor.oda.sensordeneme1.video.SurfFeatureDetectionOnVideoActivity;
@@ -82,9 +85,33 @@ public class MainActivity extends AppCompatActivity {
                 TextView txt = (TextView) findViewById(R.id.textView1);
                 txt.setText("");
 
-                Intent  intent = new Intent(getApplicationContext(), FeatureDetectionOnPhotoActivity.class);
-//                Intent  intent = new Intent(getApplicationContext(), CmeraComponentActivity.class);
-                startActivity(intent);
+                Intent  intent = new Intent(getApplicationContext(), TakePhotoActivity.class);
+//                intent = new Intent(getApplicationContext(), FeatureDetectionOnPhotoActivity2.class);
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
+
+        button = (Button) findViewById(R.id.button4);
+
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+
+                Intent  intent = new Intent(getApplicationContext(), AccelerometerExample.class);
+//                intent = new Intent(getApplicationContext(), FeatureDetectionOnPhotoActivity2.class);
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
 
