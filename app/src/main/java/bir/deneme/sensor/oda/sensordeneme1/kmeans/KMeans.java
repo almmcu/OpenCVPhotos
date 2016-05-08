@@ -47,6 +47,28 @@ public class KMeans {
         this.points = points;
     }
 
+
+    public void init(int x, int y) {
+
+        //Create Clusters
+        //Set Random Centroids
+
+        for (int i = 0; i < NUM_CLUSTERS; i++) {
+            Cluster cluster = new Cluster(i);
+            //Point centroid = Point.createRandomPoint(MIN_COORDINATE,MAX_COORDINATE);
+            Point centroid;
+
+            if (i ==0 ) centroid = new Point(x, y);
+            else   centroid = points.get(i);
+
+            cluster.setCentroid(centroid);
+            clusters.add(cluster);
+        }
+
+        //Print Initial state
+        plotClusters();
+    }
+
     //Initializes the process
     public void init() {
 

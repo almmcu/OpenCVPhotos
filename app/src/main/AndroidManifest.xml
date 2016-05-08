@@ -52,11 +52,29 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".camera.TakePhotoActivity"
-            android:label="@string/title_activity_take_photo"></activity>
+            android:label="@string/title_activity_take_photo" />
         <activity
             android:name=".accdeneme.AccelerometerExample"
             android:label="@string/title_activity_accelerometer_example"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".image.ImageActivity"
+            android:label="@string/title_activity_image"
+            android:theme="@style/AppTheme.NoTitle"  />
+        <activity
+            android:name=".image.Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".camera.FeatureDetectionOnPhotoActivity3"
+            android:label="@string/title_activity_feature_detection_on_photo3"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".image.ShowDistanceActivity"
+            android:label="@string/title_activity_show_distance"
+            android:theme="@style/AppTheme.NoTitle" >
+
+        </activity>
     </application>
 
 </manifest>

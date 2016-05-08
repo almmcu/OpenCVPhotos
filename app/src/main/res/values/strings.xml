@@ -11,4 +11,9 @@
     </string>
     <string name="title_activity_take_photo">PHOTO</string>
     <string name="title_activity_accelerometer_example">AccelerometerExample</string>
+    <string name="title_activity_image">İmageActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_feature_detection_on_photo3">FeatureDetectionOnPhotoActivity3
+    </string>
+    <string name="title_activity_show_distance">ShowDistanceActivity</string>
 </resources>

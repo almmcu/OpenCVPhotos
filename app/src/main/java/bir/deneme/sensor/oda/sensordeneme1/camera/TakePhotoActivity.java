@@ -13,16 +13,14 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.opencv.android.CameraBridgeViewBase;
-import org.w3c.dom.Text;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +30,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 
 import bir.deneme.sensor.oda.sensordeneme1.R;
+import bir.deneme.sensor.oda.sensordeneme1.image.ImageActivity;
 
 
 public class TakePhotoActivity extends AppCompatActivity implements  SensorEventListener{
@@ -88,7 +87,7 @@ public class TakePhotoActivity extends AppCompatActivity implements  SensorEvent
         str_SaveFolderName = Environment
                 .getExternalStorageDirectory()
                 .getAbsolutePath()
-                + "/AutoExperiment";
+                + "/AutoExperiment2";
         str_Camera_Photo_ImageName = str_randomnumber;
         wallpaperDirectory = new File(str_SaveFolderName);
         if (!wallpaperDirectory.exists())
@@ -148,6 +147,8 @@ public class TakePhotoActivity extends AppCompatActivity implements  SensorEvent
             if (    counter4Images == 1 ){
                 sMgr.registerListener(this, mLineerAccSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
+
+
             }
             if (counter4Images  == 2 ){
                 sMgr.unregisterListener((SensorEventListener) this);
@@ -167,10 +168,19 @@ public class TakePhotoActivity extends AppCompatActivity implements  SensorEvent
                 System.out.println(anlikMesafeler);
                 System.out.println(toplamMesafe);
                 TextView txtMeasure = (TextView) findViewById(R.id.txtMeasure);
-                txtMeasure.setText("Geçen mesafe: " + toplamMesafe );
+                txtMeasure.setText("Geçen mesafe: " + toplamMesafe);
+
+                Intent i = new Intent(TakePhotoActivity.this, ImageActivity.class);
+                i.putExtra("IMG_PATH_1", image1);
+                i.putExtra("IMG_PATH_2", image2);
+                i.putExtra("NE_TARAF", true);
+
+                startActivity(i);
             }else   btnCalculate.setVisibility(View.GONE);
         }
     }
+
+
 
     public void hesapla (View view){
         Intent i = new Intent(TakePhotoActivity.this, FeatureDetectionOnPhotoActivity2.class);

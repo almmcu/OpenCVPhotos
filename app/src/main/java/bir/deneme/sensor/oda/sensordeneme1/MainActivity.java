@@ -17,6 +17,7 @@ import java.util.Random;
 import bir.deneme.sensor.oda.sensordeneme1.accdeneme.AccelerometerExample;
 import bir.deneme.sensor.oda.sensordeneme1.camera.FeatureDetectionOnPhotoActivity2;
 import bir.deneme.sensor.oda.sensordeneme1.camera.TakePhotoActivity;
+import bir.deneme.sensor.oda.sensordeneme1.image.ImageActivity;
 import bir.deneme.sensor.oda.sensordeneme1.photo.CmeraComponentActivity;
 import bir.deneme.sensor.oda.sensordeneme1.photo.FeatureDetectionOnPhotoActivity;
 import bir.deneme.sensor.oda.sensordeneme1.video.SurfFeatureDetectionOnVideoActivity;
@@ -88,6 +89,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent  intent = new Intent(getApplicationContext(), TakePhotoActivity.class);
 //                intent = new Intent(getApplicationContext(), FeatureDetectionOnPhotoActivity2.class);
                 try {
+
+                   /* Intent i = new Intent(getApplicationContext(), ImageActivity.class);
+                    i.putExtra("IMG_PATH_1", "1.jpg");
+                    i.putExtra("IMG_PATH_2", "2.jpg");
+                    i.putExtra("NE_TARAF", true);
+
+                    startActivity(i);*/
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
